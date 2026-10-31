@@ -657,6 +657,7 @@ public interface HdPluginConfig extends Config
 			"'Off' disables the day & night cycle entirely.<br>" +
 			"'Default' shows everyone the same sky, with one complete day passing per hour.<br>" +
 			"'Real-time' matches the Sun & Moon in the real world, for your configured latitude & longitude.<br>" +
+			"'Player Position' shows an hour-long cycle, with the sun and moon position based on your in-game position.<br>" +
 			"'Custom' follows the sun and moon at the configured location, respecting the Custom cycle duration.<br>" +
 			"'Dawn' shows the sky just before sunrise.<br>" +
 			"'Sunrise' shows a constant sunrise.<br>" +
