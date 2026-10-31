@@ -13,9 +13,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.client.callback.ClientThread;
 import net.runelite.api.Client;
 import net.runelite.api.gameval.VarbitID;
+import net.runelite.client.callback.ClientThread;
 import rs117.hd.HdPlugin;
 import rs117.hd.HdPluginConfig;
 import rs117.hd.config.DaylightCycle;
@@ -71,6 +71,7 @@ public class SkyManager {
 	// Adapted from SextantLocator by Krazune (BSD 2-Clause): https://github.com/Krazune/SextantLocator
 	private static final int OBSERVATORY_X = 2440, OBSERVATORY_Y = 3161;
 	private static final float DEGREES_PER_TILE = 15f / 8f / 60f;
+	final int MAX_WORLD_Y = 4223;
 
 	@Inject
 	private ClientThread clientThread;
@@ -126,25 +127,25 @@ public class SkyManager {
 
 	private final MapShift[] mapShifts = {
 		new MapShift("PRIFDDINAS", 2239-3263, 3384-6136),
-		new MapShift("ISLE_OF_SOULS_INSTANCE",2199-2007,2842-5914),
+		new MapShift("ISLE_OF_SOULS_INSTANCE", 2199-2007, 2842-5914),
 		new MapShift("DEFENDER_OF_VARROCK_CASTLE_UNDER_ATTACK", 3214-3918, 3483-4955),
-		new MapShift("KARAMJA_INSTANCE_SHIPYARD", 3004-2620,3049-4585),
-		new MapShift("KARAMJA_INSTANCE_SOUTH_OF_MUSA_POINT", 2890-2506,3116-4588),
-		new MapShift("TUTORIAL_ISLAND_INSTANCE", 3087-1679,3102-6110),
-		new MapShift("LIGHTHOUSE_INSTANCE", 2509-2445,3636-4596),
-		new MapShift("YANILLE_INSTANCE", 2538-2922,3093-4693),
-		new MapShift("SOTE_LLETYA_MOSTLY_DONE_BURNING", 2356-2804,3176-6120),
-		new MapShift("SOTE_LLETYA_ON_FIRE", 2356-2932,3176-6184),
-		new MapShift("KEEP_LE_FAYE_INSTANCE", 2780-1706,3402-4257),
-		new MapShift("TREE_GNOME_STRONGHOLD_INSTANCE", 2437-1989,3463-5511),
-		new MapShift("LUMBRIDGE_CASTLE_INSTANCE", 3216-3424,3219-4827),
-		new MapShift("AGILITY_PYRAMID_TOP", 3367-3047,2857-4713),
-		new MapShift("FALADOR_INSTANCE", 2979-3467,3384-4760),
-		new MapShift("GOBLIN_VILLAGE_INSTANCE", 2962-2450,3504-5424),
+		new MapShift("KARAMJA_INSTANCE_SHIPYARD", 3004-2620, 3049-4585),
+		new MapShift("KARAMJA_INSTANCE_SOUTH_OF_MUSA_POINT", 2890-2506, 3116-4588),
+		new MapShift("TUTORIAL_ISLAND_INSTANCE", 3087-1679, 3102-6110),
+		new MapShift("LIGHTHOUSE_INSTANCE", 2509-2445, 3636-4596),
+		new MapShift("YANILLE_INSTANCE", 2538-2922, 3093-4693),
+		new MapShift("SOTE_LLETYA_MOSTLY_DONE_BURNING", 2356-2804, 3176-6120),
+		new MapShift("SOTE_LLETYA_ON_FIRE", 2356-2932, 3176-6184),
+		new MapShift("KEEP_LE_FAYE_INSTANCE", 2780-1706, 3402-4257),
+		new MapShift("TREE_GNOME_STRONGHOLD_INSTANCE", 2437-1989, 3463-5511),
+		new MapShift("LUMBRIDGE_CASTLE_INSTANCE", 3216-3424, 3219-4827),
+		new MapShift("AGILITY_PYRAMID_TOP", 3367-3047, 2857-4713),
+		new MapShift("FALADOR_INSTANCE", 2979-3467, 3384-4760),
+		new MapShift("GOBLIN_VILLAGE_INSTANCE", 2962-2450, 3504-5424),
 		// not actually on map, somewhat arbitrarily placed off edge of map, due East of Mos Le'Harmless
-		new MapShift("BRAINDEATH_ISLAND", 4225-2112,2944-5056),
+		new MapShift("BRAINDEATH_ISLAND", 4225-2112, 2944-5056),
 		// not actually on map, not physically tied to it but put both Castle Drakans in same place
-		new MapShift("VAMPYRIUM", 3560-2516,3358-7838),
+		new MapShift("VAMPYRIUM", 3560-2516, 3358-7838),
 		// not actually on map, but should maybe be moved
 		// "FISHER_KINGS_REALM",
 	};
@@ -380,7 +381,6 @@ public class SkyManager {
 		}
 
 		applyMapShift(focalWorldPos);
-		final int MAX_WORLD_Y = 4223;
 		if (focalWorldPos[1] > MAX_WORLD_Y) return; // fall back to previous coords
 		playerLatLon[1] = (focalWorldPos[0] - OBSERVATORY_X) * DEGREES_PER_TILE;
 		playerLatLon[0] = (focalWorldPos[1] - OBSERVATORY_Y) * DEGREES_PER_TILE;
@@ -394,6 +394,7 @@ public class SkyManager {
 		for (MapShift shift : mapShifts)
 			shift.loadArea(areaManager);
 	}
+
 	private void resolveSkyState(
 		SkyState out,
 		Environment from,
